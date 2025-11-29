@@ -27,6 +27,7 @@ class Player(Car):
         if keys[pygame.K_d]:
             self.rect.x += self.speed
 
+        self.rect.clamp_ip(pygame.Rect(0, 0, 1920, 1080))
 
 # class NPC(Car):
 
@@ -39,8 +40,8 @@ def main():
     pygame.display.set_caption("Twelve 'o Clock Wheelman") #Play on Midnight Motorist xd
     clock = pygame.time.Clock()
     clock.tick(60)
-    player = Player(100, 100, 10, 10, (100, 100, 100), 1)
-    resolution = (800, 600)
+    player = Player(100, 100, 10, 10, (100, 100, 100), 2)
+    resolution = (1920, 1080)
     screen = pygame.display.set_mode(resolution)
     running = True
 
