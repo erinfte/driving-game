@@ -14,7 +14,7 @@ class Player(Car):
  
     def __init__(self):
         super().__init__(100, 100, 100, 50, (153, 51, 102))
-        self.speed = 2
+        self.speed = 1
     
     def update(self):
         keys = pygame.key.get_pressed()
@@ -39,18 +39,35 @@ class NPC(Car):
     def update(self):
         self.rect.x -= self.speed
 
+class UpdateNPC():
+    def __init__(self, spawn_delay=300):
+        self.npcs = []
+        self.spawn_timer = 0
+        self.spawn_delay = spawn_delay
 
+    def update(self):
+        self.spawn_timer += 1
+        if self.spawn_timer >= self.spawn_delay:
+            self.npcs.append(NPC())
+            self.spawn_timer = 0
 
+        for npc in self.npcs:
+            npc.update()
+
+        self.npcs = [npc for npc in self.npcs if npc.rect.right > 0]
+
+    def draw(self, surf):
+        for npc in self.npcs:
+            npc.draw(surf)
 
 def main():
     pygame.init()
     pygame.display.set_caption("Twelve 'o Clock Wheelman") #Play on Midnight Motorist xd
     clock = pygame.time.Clock()
     clock.tick(60)
+
     player = Player()
-    npcs = []
-    spawn_timer = 0
-    spawn_delay = 300
+    updated_npc = UpdateNPC(spawn_delay=300)
     resolution = (1920, 1080)
     screen = pygame.display.set_mode(resolution)
     running = True
@@ -61,18 +78,11 @@ def main():
                 running = False
 
         player.update()
-        spawn_timer += 1
-        if spawn_timer >= spawn_delay:
-            npcs.append(NPC())
-            spawn_timer = 0
-
-        for npc in npcs:
-            npc.update()
+        updated_npc.update()
 
         screen.fill((0, 0, 0))
         player.draw(screen)
-        for npc in npcs:
-            npc.draw(screen)
+        updated_npc.draw(screen)
 
         pygame.display.flip()
         
