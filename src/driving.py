@@ -69,10 +69,11 @@ def main():
     pygame.display.set_caption("Twelve 'o Clock Wheelman") #Play on Midnight Motorist xd
     clock = pygame.time.Clock()
     clock.tick(60)
-    font = pygame.font.SysFont('None', 200)
+    font = pygame.font.SysFont('None', 100)
 
     player = Player()
     updated_npc = UpdateNPC(spawn_delay=300)
+    score = 0
     game_over = False
     resolution = (1920, 1080)
     screen = pygame.display.set_mode(resolution)
@@ -86,15 +87,18 @@ def main():
         if not game_over:
             player.update()
             collision = updated_npc.update(player)
+            score += clock.get_time() / 1000
             if collision:
                 game_over = True
 
         screen.fill((0, 0, 0))
         player.draw(screen)
         updated_npc.draw(screen)
+        score_counter = font.render(f"Score: {int(score)}", True, (255,255,255))
+        screen.blit(score_counter, (10,10))
 
         if game_over:
-            text = font.render("GAME OVER.", True, (102, 0, 102))
+            text = font.render("GAME OVER!", True, (102, 0, 102))
             text_rect = text.get_rect(center=(1920//2, 1080//2))
             screen.blit(text, text_rect)
 
