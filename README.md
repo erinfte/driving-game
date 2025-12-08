@@ -1,7 +1,7 @@
-# driving-game
+# DRIVING GAME
 
 ## Demo
-Demo Video: <URL>
+Demo Video: <https://youtu.be/bR8PJsZfSZs>
 
 ## GitHub Repository
 GitHub Repo: <https://github.com/erinfte/driving-game.git>
